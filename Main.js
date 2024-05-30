@@ -34,11 +34,3 @@ function rand_message(wordObject) {
 }
 
 rand_message(random_words);
-
-const newWords = {
-    weather: ['sunny', 'cloudy', 'windy', 'rainy'],
-    mood: ['happy', 'sad', 'excited', 'calm'],
-    activity: ['reading', 'walking', 'coding', 'sleeping']
-};
-
-rand_message(newWords);
