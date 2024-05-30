@@ -4,28 +4,41 @@ const random_words = {
     adj: ['great', 'euphoric', 'hell of a', 'awful', 'to forget', 'to remember']
 };
 
-function rand_message() {
-    select_words = []
-    for (let key of Object.keys(random_words)) {
-        num = Math.floor(Math.random() * random_words[key].length);
-        select_words.push(random_words[key][num]);
-    }
-    
-    message = `The rains today on ${select_words[0]} `;
+const memo = new Map();
 
-    if (select_words[1] === 'diamond') {
-        message += `shine bright like a ${select_words[1]}. `;
-    } else {
-        message += `are ${select_words[1]}. `;
-    }
+function rand_message(wordObject) {
 
-    if (select_words[2].includes('to ')) {
-        message += `This means you will have a day ${select_words[2]}.`;
-    } else {
-        message += `This means you will have a ${select_words[2]} day.`;
-    }
+    function generateMessage(wordObject) {
+        const selectedWords = Object.keys(wordObject).map(key => {
+            const options = wordObject[key];
+            return options[Math.floor(Math.random() * options.length)];
+        });
+        
+        const key = selectedWords.join('-'); // Create a key from the selected words
 
-    console.log(message);
+        if (memo.has(key)) {
+            return memo.get(key);
+        }
+
+        const message = `The rains today on ${selectedWords[0]} ${
+            selectedWords[1] === 'diamond' ? 'shine bright like a diamond' : `are ${selectedWords[1]}`
+        }. This means you will have a ${
+            selectedWords[2].includes('to ') ? `${selectedWords[2]}` : `${selectedWords[2]} day`
+        }.`;
+
+        memo.set(key, message);
+        return message;
+    }
+   
+    console.log(generateMessage(wordObject));
 }
 
-rand_message()
+rand_message(random_words);
+
+const newWords = {
+    weather: ['sunny', 'cloudy', 'windy', 'rainy'],
+    mood: ['happy', 'sad', 'excited', 'calm'],
+    activity: ['reading', 'walking', 'coding', 'sleeping']
+};
+
+rand_message(newWords);
